@@ -8,17 +8,43 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Sql REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Sql REQUIRED)
 
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        icons.qrc
+
+        pagecontext.h
+        pagecontext.cpp
+        pagewidget.h
+        pagewidget.cpp
+
+        datatypes/note.h
+        datatypes/note.cpp
+        datatypes/attachment.h
+        datatypes/attachment.cpp
+
+        storage/storagebackend.h
+        storage/storagebackend.cpp
+
+        landing/landingwidget.h
+        landing/landingwidget.cpp
+        landing/landingwidget.ui
+
+        browser/browserwidget.h
+        browser/browserwidget.cpp
+        browser/browserwidget.ui
+
+        editor/editorwidget.h
+        editor/editorwidget.cpp
+        editor/editorwidget.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -44,7 +70,11 @@ else()
     endif()
 endif()
 
-target_link_libraries(ase-2021-fall PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(ase-2021-fall
+    PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Sql
+)
 
 set_target_properties(ase-2021-fall PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
