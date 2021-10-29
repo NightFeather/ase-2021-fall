@@ -2,7 +2,7 @@
 #define LANDINGWIDGET_H
 
 #include <QWidget>
-#include "pagewidget.h"
+#include "navigate/pagewidget.h"
 
 namespace Ui {
 class LandingWidget;

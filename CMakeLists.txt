@@ -21,10 +21,12 @@ set(PROJECT_SOURCES
         mainwindow.ui
         icons.qrc
 
-        pagecontext.h
-        pagecontext.cpp
-        pagewidget.h
-        pagewidget.cpp
+        navigate/pagecontext.h
+        navigate/pagecontext.cpp
+        navigate/navcontext.h
+        navigate/navcontext.cpp
+        navigate/pagewidget.h
+        navigate/pagewidget.cpp
 
         datatypes/note.h
         datatypes/note.cpp

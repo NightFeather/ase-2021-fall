@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "pagecontext.h"
+#include "navigate/navcontext.h"
 #include "landing/landingwidget.h"
 #include "browser/browserwidget.h"
 #include "editor/editorwidget.h"
@@ -20,10 +20,10 @@ public:
     ~MainWindow();
 
 public slots:
-    void routeChanged(QString);
+    void routeChanged(const PageContext &);
 
 private:
     Ui::MainWindow *ui;
-    PageContext* m_context;
+    NavContext* m_context;
 };
 #endif // MAINWINDOW_H

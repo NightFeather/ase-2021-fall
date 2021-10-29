@@ -19,20 +19,22 @@ LandingWidget::~LandingWidget()
 void LandingWidget::gotoBrowser()
 {
     if(context() != nullptr) {
-        context()->setCurrent("/browse");
+        context()->gotoPage("/browse");
     }
 }
 
 void LandingWidget::gotoCreator()
 {
     if(context() != nullptr) {
-        context()->setCurrent("/create");
+        context()->gotoPage("/create");
     }
 }
 
 void LandingWidget::gotoEditor()
 {
     if(context() != nullptr) {
-        context()->setCurrent("/openlast");
+        PageContext ctx("/editor");
+        ctx.args().insert("id", "_last");
+        context()->gotoPage(ctx);
     }
 }
