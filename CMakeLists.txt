@@ -20,6 +20,7 @@ set(PROJECT_SOURCES
         mainwindow.h
         mainwindow.ui
         icons.qrc
+        images.qrc
 
         navigate/pagecontext.h
         navigate/pagecontext.cpp
@@ -47,6 +48,12 @@ set(PROJECT_SOURCES
         editor/editorwidget.h
         editor/editorwidget.cpp
         editor/editorwidget.ui
+        editor/attachmentwidget.h
+        editor/attachmentwidget.cpp
+        editor/attachmentwidget.ui
+        editor/attachmentlist.h
+        editor/attachmentlist.cpp
+        editor/attachmentlist.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
