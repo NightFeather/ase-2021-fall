@@ -20,7 +20,6 @@ public:
     void setNote(Note *newNote);
 
 public slots:
-    void showNote(); // for initialization
     void refresh();
     void save();
     void discard();

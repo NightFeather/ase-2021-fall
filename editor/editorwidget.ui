@@ -56,9 +56,6 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="when"/>
-      </item>
       <item row="3" column="0">
        <widget class="QLabel" name="label_4">
         <property name="text">
@@ -96,6 +93,16 @@
       </item>
       <item row="4" column="1">
        <widget class="AttachmentList" name="attachments" native="true"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QDateTimeEdit" name="when">
+        <property name="displayFormat">
+         <string>yyyy/MM/dd hh:mm</string>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
