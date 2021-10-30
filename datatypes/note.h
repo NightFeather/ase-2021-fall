@@ -11,6 +11,8 @@ class Note : public QObject
     Q_OBJECT
 public:
     explicit Note(QObject *parent = nullptr);
+    Note(const Note&);
+    Note(Note&&);
 
     const QUuid &id() const;
     void setId(const QUuid &newId);
@@ -39,5 +41,7 @@ private:
     QDateTime m_timestamp;
     QList<Attachment*> m_attachments;
 };
+
+Q_DECLARE_METATYPE(Note);
 
 #endif // NOTE_H

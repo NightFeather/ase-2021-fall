@@ -24,7 +24,7 @@ PageContext::PageContext(const PageContext& other) : QObject(nullptr),
 }
 
 bool PageContext::operator==(const PageContext & other) const {
-    return other.m_path == m_path && other.m_args == m_args;
+    return other.m_path == m_path;
 }
 
 PageContext& PageContext::operator=(const PageContext& other) {
@@ -52,7 +52,12 @@ const QString &PageContext::path() const
     return m_path;
 }
 
-QHash<QString, QString> &PageContext::args()
+const QHash<QString, QVariant> &PageContext::args() const
 {
     return m_args;
+}
+
+void PageContext::setArgs(const QHash<QString, QVariant> &newArgs)
+{
+    m_args = newArgs;
 }

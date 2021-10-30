@@ -5,6 +5,11 @@ PageWidget::PageWidget(QWidget *parent, NavContext* context) : QWidget(parent), 
 
 }
 
+bool PageWidget::handle(const QHash<QString, QVariant> &)
+{
+    return true;
+}
+
 NavContext *PageWidget::context() const
 {
     return m_context;

@@ -1,5 +1,11 @@
 #include "attachment.h"
 
+Attachment::Attachment(QObject *parent) : QObject(parent),
+  m_id(), m_type(), m_title(), m_desc()
+{
+
+}
+
 Attachment::Attachment(const QString &type, QObject *parent) : QObject(parent),
     m_type(type), m_title("No title"), m_desc("No Description")
 {

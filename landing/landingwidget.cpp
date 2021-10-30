@@ -26,7 +26,11 @@ void LandingWidget::gotoBrowser()
 void LandingWidget::gotoCreator()
 {
     if(context() != nullptr) {
-        context()->gotoPage("/create");
+        PageContext ctx("/editor");
+        auto args = ctx.args();
+        args.insert("action", "new");
+        ctx.setArgs(args);
+        context()->gotoPage(ctx);
     }
 }
 
@@ -34,7 +38,10 @@ void LandingWidget::gotoEditor()
 {
     if(context() != nullptr) {
         PageContext ctx("/editor");
-        ctx.args().insert("id", "_last");
+        auto args = ctx.args();
+        args.insert("action", "open");
+        args.insert("id", "_last");
+        ctx.setArgs(args);
         context()->gotoPage(ctx);
     }
 }

@@ -10,6 +10,8 @@ class PageWidget : public QWidget
 public:
     explicit PageWidget(QWidget *parent = nullptr, NavContext *context = nullptr);
 
+    virtual bool handle(const QHash<QString, QVariant>&);
+
     NavContext *context() const;
     void setContext(NavContext *newContext);
 

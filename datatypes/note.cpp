@@ -5,6 +5,29 @@ Note::Note(QObject *parent) : QObject(parent)
 
 }
 
+Note::Note(const Note &other)
+    : m_id(other.m_id)
+    , m_title(other.m_title)
+    , m_persons(other.m_persons)
+    , m_location(other.m_location)
+    , m_body(other.m_body)
+    , m_timestamp(other.m_timestamp)
+    , m_attachments(other.m_attachments)
+{
+}
+
+Note::Note(Note && other)
+    : m_id(std::move(other.m_id))
+    , m_title(std::move(other.m_title))
+    , m_persons(std::move(other.m_persons))
+    , m_location(std::move(other.m_location))
+    , m_body(std::move(other.m_body))
+    , m_timestamp(std::move(other.m_timestamp))
+    , m_attachments(std::move(other.m_attachments))
+{
+
+}
+
 const QUuid &Note::id() const
 {
     return m_id;

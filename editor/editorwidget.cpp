@@ -4,7 +4,7 @@
 #include <QMessageBox>
 
 EditorWidget::EditorWidget(QWidget *parent) :
-    QWidget(parent),
+    PageWidget(parent),
     ui(new Ui::EditorWidget),
     m_note(nullptr)
 {
@@ -20,44 +20,91 @@ EditorWidget::~EditorWidget()
     delete ui;
 }
 
-Note *EditorWidget::note() const
+void EditorWidget::open(QUuid *)
 {
-    return m_note;
+    create();
+    m_note->setTitle("Opened");
+    emit noteChanged();
 }
 
-void EditorWidget::setNote(Note *newNote)
+void EditorWidget::create()
 {
-    if (m_note == newNote)
-        return;
-    delete m_note;
-    m_note = newNote;
+    m_note = new Note;
+    m_note->setTitle("Created");
     emit noteChanged();
 }
 
 void EditorWidget::refresh()
 {
     if(m_note != nullptr) {
-        ui->what->setText(m_note->title());
-        ui->who->setText(m_note->persons().join(", "));
-        ui->when->setDateTime(m_note->timestamp());
-        ui->where->setText(m_note->location());
-        ui->attachments->setAttachments(m_note->attachments());
+        readFrom(m_note);
     }
 }
 
 void EditorWidget::save()
 {
     if(m_note != nullptr) {
-        m_note->setTitle(ui->what->text());
-        m_note->setPersons(ui->who->text().split(", "));
-        m_note->setTimestamp(ui->when->dateTime());
-        m_note->setLocation(ui->where->text());
-        m_note->setAttachments(ui->attachments->attachments());
+        writeTo(m_note);
     }
+    context()->backPage();
 }
 
 void EditorWidget::discard()
 {
     refresh();
+    context()->backPage();
 }
 
+void EditorWidget::store()
+{
+    if(context() != nullptr) {
+        auto args = context()->currentPage().args();
+        Note note;
+        writeTo(&note);
+        args.insert("_laststate", QVariant::fromValue(note));
+    }
+}
+
+void EditorWidget::restore()
+{
+    if(context() != nullptr) {
+        auto args = context()->currentPage().args();
+        if(args.contains("_laststate")) {
+            auto laststate = args.value("_laststate");
+            if(laststate.canConvert<Note>()) {
+                readFrom(new Note(laststate.value<Note>()));
+            }
+        }
+    }
+}
+
+void EditorWidget::writeTo(Note *note)
+{
+    note->setTitle(ui->what->text());
+    note->setPersons(ui->who->text().split(", "));
+    note->setTimestamp(ui->when->dateTime());
+    note->setLocation(ui->where->text());
+    note->setAttachments(ui->attachments->attachments());
+}
+
+void EditorWidget::readFrom(Note *note)
+{
+    ui->what->setText(note->title());
+    ui->who->setText(note->persons().join(", "));
+    ui->when->setDateTime(note->timestamp());
+    ui->where->setText(note->location());
+    ui->attachments->setAttachments(note->attachments());
+}
+
+bool EditorWidget::handle(const QHash<QString, QVariant> &args)
+{
+    if(args.value("action") == "new") {
+        create();
+        return true;
+    } else if (args.value("action") == "open") {
+        open(nullptr);
+        return true;
+    } else {
+        return false;
+    }
+}

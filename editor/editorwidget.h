@@ -2,13 +2,14 @@
 #define EDITORWIDGET_H
 
 #include <QWidget>
+#include <navigate/pagewidget.h>
 #include <datatypes/note.h>
 
 namespace Ui {
 class EditorWidget;
 }
 
-class EditorWidget : public QWidget
+class EditorWidget : public PageWidget
 {
     Q_OBJECT
 
@@ -16,13 +17,19 @@ public:
     explicit EditorWidget(QWidget *parent = nullptr);
     ~EditorWidget();
 
-    Note *note() const;
-    void setNote(Note *newNote);
+    void open(QUuid*);
+    void create();
 
 public slots:
     void refresh();
     void save();
     void discard();
+
+protected:
+    void store();
+    void restore();
+    void writeTo(Note*);
+    void readFrom(Note*);
 
 signals:
     void noteChanged();
@@ -30,6 +37,10 @@ signals:
 private:
     Ui::EditorWidget *ui;
     Note* m_note;
+
+    // PageWidget interface
+public:
+    virtual bool handle(const QHash<QString, QVariant> &) override;
 };
 
 #endif // EDITORWIDGET_H

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QHash>
+#include <QVariant>
 
 class PageContext : public QObject
 {
@@ -19,7 +20,8 @@ public:
     const QString &title() const;
     void setTitle(const QString &newTitle);
     const QString &path() const;
-    QHash<QString, QString> &args();
+    const QHash<QString, QVariant> &args() const;
+    void setArgs(const QHash<QString, QVariant> &newArgs);
 
 signals:
     void titleChanged();
@@ -27,7 +29,7 @@ signals:
 private:
     QString m_path;
     QString m_title;
-    QHash<QString, QString> m_args;
+    QHash<QString, QVariant> m_args;
 };
 
 Q_DECLARE_METATYPE(PageContext);

@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include <QDebug>
+#include <datatypes/attachment.h>
+#include <datatypes/note.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -9,9 +11,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->welcompage->setContext(m_context);
+    ui->editor->setContext(m_context);
     ui->backBtn->setVisible(false);
 
     qRegisterMetaType<PageContext>("PageContext");
+    qRegisterMetaType<Note>("Note");
+    qRegisterMetaType<Attachment>("Attachment");
 
     connect(m_context, &NavContext::routeChanged, this, &MainWindow::routeChanged);
     connect(ui->backBtn, &QToolButton::clicked, m_context, &NavContext::backPage);
@@ -27,14 +32,13 @@ void MainWindow::routeChanged(const PageContext& page)
     auto route = page.path();
     auto segs = route.split("/");
     if(route == "/") {
-        this->ui->stackedWidget->setCurrentIndex(0);
+        ui->stackedWidget->setCurrentIndex(0);
     } else if(segs.length() > 1) {
         if(segs.at(1) == "browse") {
-            this->ui->stackedWidget->setCurrentIndex(1);
-        } else if(segs.at(1) == "create") {
-            this->ui->stackedWidget->setCurrentIndex(2);
+            ui->stackedWidget->setCurrentIndex(1);
         } else if(segs.at(1) == "editor") {
-            this->ui->stackedWidget->setCurrentIndex(2);
+            ui->editor->handle(page.args());
+            ui->stackedWidget->setCurrentIndex(2);
         } else {
             qWarning() << QString("Try navigating to invalid route %1.").arg(route) << Qt::endl;
         }

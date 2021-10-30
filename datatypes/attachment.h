@@ -10,6 +10,7 @@ class Attachment : public QObject
 {
     Q_OBJECT
 public:
+    explicit Attachment(QObject *parent = nullptr);
     explicit Attachment(const QString& type, QObject *parent = nullptr);
     Attachment(const Attachment&);
 
@@ -35,5 +36,7 @@ private:
     QString m_title;
     QString m_desc;
 };
+
+Q_DECLARE_METATYPE(Attachment);
 
 #endif // ATTACHMENT_H
