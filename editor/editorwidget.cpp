@@ -82,7 +82,7 @@ void EditorWidget::writeTo(Note *note)
 {
     note->setTitle(ui->what->text());
     note->setPersons(ui->who->text().split(", "));
-    note->setTimestamp(ui->when->dateTime());
+    note->setWhen(ui->when->dateTime());
     note->setLocation(ui->where->text());
     note->setAttachments(ui->attachments->attachments());
 }
@@ -91,7 +91,7 @@ void EditorWidget::readFrom(Note *note)
 {
     ui->what->setText(note->title());
     ui->who->setText(note->persons().join(", "));
-    ui->when->setDateTime(note->timestamp());
+    ui->when->setDateTime(note->when());
     ui->where->setText(note->location());
     ui->attachments->setAttachments(note->attachments());
 }

@@ -11,7 +11,7 @@ Note::Note(const Note &other)
     , m_persons(other.m_persons)
     , m_location(other.m_location)
     , m_body(other.m_body)
-    , m_timestamp(other.m_timestamp)
+    , m_when(other.m_when)
     , m_attachments(other.m_attachments)
 {
 }
@@ -22,7 +22,7 @@ Note::Note(Note && other)
     , m_persons(std::move(other.m_persons))
     , m_location(std::move(other.m_location))
     , m_body(std::move(other.m_body))
-    , m_timestamp(std::move(other.m_timestamp))
+    , m_when(std::move(other.m_when))
     , m_attachments(std::move(other.m_attachments))
 {
 
@@ -68,14 +68,14 @@ void Note::setLocation(const QString &newLocation)
     m_location = newLocation;
 }
 
-const QDateTime &Note::timestamp() const
+const QDateTime &Note::when() const
 {
-    return m_timestamp;
+    return m_when;
 }
 
-void Note::setTimestamp(const QDateTime &newTimestamp)
+void Note::setWhen(const QDateTime &newWhen)
 {
-    m_timestamp = newTimestamp;
+    m_when = newWhen;
 }
 
 const QList<Attachment *> &Note::attachments() const

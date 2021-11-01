@@ -22,8 +22,8 @@ public:
     void setPersons(const QStringList &newPersons);
     const QString &location() const;
     void setLocation(const QString &newLocation);
-    const QDateTime &timestamp() const;
-    void setTimestamp(const QDateTime &newTimestamp);
+    const QDateTime &when() const;
+    void setWhen(const QDateTime &newWhen);
     const QList<Attachment *> &attachments() const;
     void setAttachments(const QList<Attachment *> &newAttachments);
 
@@ -38,7 +38,7 @@ private:
     QStringList m_persons;
     QString m_location;
     QString m_body;
-    QDateTime m_timestamp;
+    QDateTime m_when;
     QList<Attachment*> m_attachments;
 };
 
