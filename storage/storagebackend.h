@@ -9,11 +9,21 @@ class StorageBackend : public QObject
 public:
     explicit StorageBackend(QObject *parent = nullptr);
 
+    virtual bool connect(const QString&) = 0;
+    virtual void close() = 0;
+
+protected:
+    const QString &uri() const;
+    void setUri(const QString &newUri);
+    bool opened() const;
+    void setOpened(bool newOpened);
+
 signals:
 
-};
 
-template<typename T> class TypedStorageBackend : public StorageBackend {
+private:
+    QString m_uri;
+    bool m_opened;
 };
 
 #endif // STORAGEBACKEND_H

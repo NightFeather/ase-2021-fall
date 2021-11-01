@@ -36,6 +36,8 @@ set(PROJECT_SOURCES
 
         storage/storagebackend.h
         storage/storagebackend.cpp
+        storage/filesystembackend.h
+        storage/filesystembackend.cpp
 
         landing/landingwidget.h
         landing/landingwidget.cpp
