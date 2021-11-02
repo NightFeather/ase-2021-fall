@@ -9,31 +9,47 @@
 NoteManager::NoteManager(QObject *parent) : QObject(parent)
 {
     m_backend.connect(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)+"/Notes");
-    m_indexdb = QSqlDatabase::addDatabase(
-                "QSQLITE",
-                QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/notes_indexes"
-                );
+
+    QDir d;
+    if(!d.exists(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation))) {
+        d.mkpath(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    }
+    d.setPath(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    if(!d.exists("NoteApp")) { d.mkdir("NoteApp"); }
+    d.cd("NoteApp");
+
+    auto fp = d.filePath("notes_indexes");
+    m_indexdb = QSqlDatabase::addDatabase("QSQLITE", fp);
+    m_indexdb.open();
 
     m_indexdb.exec(
         "CREATE TABLE IF NOT EXISTS main"
         "(nid TEXT PRIMARY KEY, path TEXT, location TEXT, when TEXT)"
-    );
+    ).exec();
 
-    m_indexdb.exec("CREATE INDEX IF NOT EXISTS idx_location ON main ( location )");
-    m_indexdb.exec("CREATE INDEX IF NOT EXISTS idx_when ON main ( when )");
+    m_indexdb.exec("CREATE INDEX IF NOT EXISTS idx_location ON main ( location )").exec();
+    m_indexdb.exec("CREATE INDEX IF NOT EXISTS idx_when ON main ( when )").exec();
 
     m_indexdb.exec(QString("CREATE TABLE IF NOT EXISTS persons"
                            "(person TEXT PRIMARY KEY, nid TEXT)"
-                           ));
+                           )).exec();
 }
 
 NoteManager::NoteManager(const QString &base, QObject *parent) : QObject(parent)
 {
     m_backend.connect(base);
-    m_indexdb = QSqlDatabase::addDatabase(
-                "QSQLITE",
-                QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/notes_indexes"
-                );
+
+    QDir d;
+    if(!d.exists(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation))) {
+        d.mkpath(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    }
+    d.cd(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    if(!d.exists("NoteApp")) { d.mkdir("NoteApp"); }
+    d.cd("NoteApp");
+
+    auto fp = d.filePath("notes_indexes");
+    m_indexdb = QSqlDatabase::addDatabase("QSQLITE", fp);
+    m_indexdb.open();
 
     m_indexdb.exec(
         "CREATE TABLE IF NOT EXISTS main"
