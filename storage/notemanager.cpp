@@ -157,11 +157,13 @@ bool NoteManager::save(Note *note)
 {
     QVariantMap props;
     QJsonDocument doc;
-    QString path = makepath(note);
 
     if(note->id().isNull()) {
         note->setId(QUuid::createUuid());
+        note->setTimestamp(QDateTime::currentDateTime());
     }
+
+    QString path = makepath(note);
 
     props["id"] = note->id();
     props["title"] = note->title();

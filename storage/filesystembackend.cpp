@@ -12,15 +12,17 @@ bool FilesystemBackend::connect(const QString &uri)
     setUri(uri);
 
     if(!d.exists(uri)) {
-        if(d.mkpath(uri)) {
-            d.setPath(uri);
-            m_base = d;
-        }
-        return false;
+        d.mkpath(uri);
     }
 
-    setOpened(true);
-    return true;
+    if(d.exists(uri)) {
+        d.setPath(uri);
+        m_base = d;
+        setOpened(true);
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void FilesystemBackend::close()
@@ -75,7 +77,7 @@ bool FilesystemBackend::remove(const QString &pkey)
 size_t FilesystemBackend::write(const QString &pkey, const QString &field, const QByteArray &value)
 {
     QDir d(m_base);
-    if(!d.cd(pkey)) { d.mkpath(pkey); }
+    if(!d.exists(pkey)) { d.mkpath(pkey); }
     if(d.cd(pkey)) {
         QFile f(d.filePath(field));
         if(f.open(QFile::ReadWrite)) {
