@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <navigate/pagewidget.h>
 #include <datatypes/note.h>
+#include <storage/notemanager.h>
 
 namespace Ui {
 class EditorWidget;
@@ -17,7 +18,7 @@ public:
     explicit EditorWidget(QWidget *parent = nullptr);
     ~EditorWidget();
 
-    void open(QUuid*);
+    void open(QUuid);
     void create();
 
 public slots:
@@ -36,6 +37,7 @@ signals:
 
 private:
     Ui::EditorWidget *ui;
+    NoteManager m_manager;
     Note* m_note;
 
     // PageWidget interface

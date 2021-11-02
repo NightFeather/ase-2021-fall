@@ -14,9 +14,11 @@ public:
     virtual bool connect(const QString&) override;
     virtual void close() override;
 
-    bool open(const QString&);
-    bool create(const QString&); // create model directory
-    bool remove(const QString&);
+    virtual QFileInfoList list(const QString&);
+
+    virtual bool open(const QString&, bool autoCreate = false);
+    virtual bool rename(const QString&, const QString&, bool overwrite = false);
+    virtual bool remove(const QString&);
 
     size_t write(const QString&, const QString&, const QByteArray&); // write single entity
     QByteArray read(const QString&, const QString&); // read single entity

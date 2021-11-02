@@ -2,10 +2,12 @@
 #include "ui_editorwidget.h"
 #include "attachmentwidget.h"
 #include <QMessageBox>
+#include <QTimer>
 
 EditorWidget::EditorWidget(QWidget *parent) :
     PageWidget(parent),
     ui(new Ui::EditorWidget),
+    m_manager(new NoteManager),
     m_note(nullptr)
 {
     ui->setupUi(this);
@@ -20,10 +22,18 @@ EditorWidget::~EditorWidget()
     delete ui;
 }
 
-void EditorWidget::open(QUuid *)
+void EditorWidget::open(QUuid id)
 {
-    create();
-    m_note->setTitle("Opened");
+    m_note = m_manager.get(id);
+    if(m_note == nullptr) {
+        QMessageBox::warning(nullptr, "Warning", "Non-existent note");
+        if(context()) {
+            QTimer::singleShot(0, this, [this]() { context()->backPage(); });
+            return;
+        } else {
+            create();
+        }
+    }
     emit noteChanged();
 }
 
@@ -45,6 +55,7 @@ void EditorWidget::save()
 {
     if(m_note != nullptr) {
         writeTo(m_note);
+        m_manager.save(m_note);
     }
     context()->backPage();
 }
@@ -102,7 +113,7 @@ bool EditorWidget::handle(const QHash<QString, QVariant> &args)
         create();
         return true;
     } else if (args.value("action") == "open") {
-        open(nullptr);
+        open(args.value("id", QUuid()).toUuid());
         return true;
     } else {
         return false;

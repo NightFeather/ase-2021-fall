@@ -30,6 +30,9 @@ public:
     const QString &body() const;
     void setBody(const QString &newBody);
 
+    const QDateTime &timestamp() const;
+    void setTimestamp(const QDateTime &newTimestamp);
+
 signals:
 
 private:
@@ -39,6 +42,7 @@ private:
     QString m_location;
     QString m_body;
     QDateTime m_when;
+    QDateTime m_timestamp;
     QList<Attachment*> m_attachments;
 };
 

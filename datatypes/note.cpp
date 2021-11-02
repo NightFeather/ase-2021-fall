@@ -12,6 +12,7 @@ Note::Note(const Note &other)
     , m_location(other.m_location)
     , m_body(other.m_body)
     , m_when(other.m_when)
+    , m_timestamp(other.m_timestamp)
     , m_attachments(other.m_attachments)
 {
 }
@@ -23,6 +24,7 @@ Note::Note(Note && other)
     , m_location(std::move(other.m_location))
     , m_body(std::move(other.m_body))
     , m_when(std::move(other.m_when))
+    , m_timestamp(std::move(other.m_timestamp))
     , m_attachments(std::move(other.m_attachments))
 {
 
@@ -96,4 +98,14 @@ const QString &Note::body() const
 void Note::setBody(const QString &newBody)
 {
     m_body = newBody;
+}
+
+const QDateTime &Note::timestamp() const
+{
+    return m_timestamp;
+}
+
+void Note::setTimestamp(const QDateTime &newTimestamp)
+{
+    m_timestamp = newTimestamp;
 }

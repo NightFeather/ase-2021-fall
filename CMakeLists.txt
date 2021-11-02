@@ -11,8 +11,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Sql REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Sql REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Sql Multimedia REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Sql Multimedia REQUIRED)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -38,6 +38,8 @@ set(PROJECT_SOURCES
         storage/storagebackend.cpp
         storage/filesystembackend.h
         storage/filesystembackend.cpp
+        storage/notemanager.h
+        storage/notemanager.cpp
 
         landing/landingwidget.h
         landing/landingwidget.cpp
@@ -85,6 +87,7 @@ target_link_libraries(ase-2021-fall
     PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Sql
+    Qt${QT_VERSION_MAJOR}::Multimedia
 )
 
 set_target_properties(ase-2021-fall PROPERTIES
